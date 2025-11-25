@@ -1,0 +1,33 @@
+1.Create SNS Topic
+  Go to SNS → Topics → Create topic
+  Type: Standard
+  Name: monitoring-alerts
+  Create the topic.
+2.Subscribe Email to Topic
+  In the topic → Create subscription
+  Protocol: Email
+  Endpoint: your email
+  Confirm subscription from your email inbox.
+3.Create CloudWatch Alarm for EC2 (example)
+  Go to CloudWatch → Alarms → All alarms → Create alarm
+  Click Select metric
+  Choose: EC2 → Per-Instance Metrics → CPUUtilization
+  Pick an instance → Select metric.
+  Set conditions (example):
+      Threshold: >= 80%
+      Period: 5 minutes
+  In Notification section:
+      Alarm state: In alarm
+      Send to SNS topic: monitoring-alerts
+  Name alarm: high-cpu-ec2
+  Create alarm.
+4.Create Billing / Cost Alert (simple way)
+  Go to Billing → Budgets → Create budget
+  Type: Cost budget
+  Set monthly limit (e.g. $10)
+  Configure email notifications to your address
+  Save budget.
+5.Test Alarm
+  Temporarily lower CPU threshold or stress instance
+  Wait for alarm to go into ALARM state
+  Confirm email notification arrives.
